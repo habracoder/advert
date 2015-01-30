@@ -18,16 +18,16 @@ jQuery(function ($) {
             $.ajax({
                 url: Routing.generate('widget_autocomplete_panel'),
                 dataType: 'json',
-                type:   "GET",
+                type: "GET",
                 cache: false,
-                data:   formData,
+                data: formData,
                 beforeSend: function () {
                     $('.searchAutocomplete').hide().html('');
                 },
-                success: function(response){
+                success: function (response) {
                     var ahtml = '';
                     ahtml += '<ul>';
-                    $.each(response.adverts, function(item, obj){
+                    $.each(response.adverts, function (item, obj) {
                         ahtml += '<li><p class="title">' + obj.title + '</p></li>';
                     });
                     ahtml += '</ul>';
@@ -39,7 +39,7 @@ jQuery(function ($) {
             return false;
         });
 
-        $('#searchPanel [type=search]').on('keyup', function(e){
+        $('#searchPanel [type=search]').on('keyup', function (e) {
             e.preventDefault();
             var searchQuery = $(this).val();
             if (searchQuery.length >= 3) {
@@ -47,27 +47,24 @@ jQuery(function ($) {
             }
         });
 
-        $('.search-field').keypress(function(e) {
+        $('.search-field').keypress(function (e) {
             if (this.value == '') {
-                if ( e.which == 13 ) return false;
-            } else{
+                if (e.which == 13) return false;
+            } else {
                 return true;
             }
         });
 
-
         // Kill autosuggest on scroll
-        $(window).scroll(function(){
+        $(window).scroll(function () {
             $('.searchAutocomplete').css({'display': 'none'});
         });
-
-
     });
 
-    $('body').on('click', '[data-handler=bookmark]', function(e) {
+    $('body').on('click', '[data-handler=bookmark]', function (e) {
         var bottonElement = $(this);
         var clickedEl = bottonElement;
-        if (false == bottonElement.hasClass('save-favorite')){
+        if (false == bottonElement.hasClass('save-favorite')) {
             var clickedEl = $(bottonElement).parents('.save-favorite');
         }
 
@@ -77,7 +74,7 @@ jQuery(function ($) {
             })
         );
 
-        request.done(function(response){
+        request.done(function (response) {
             if (response.status == 'add') {
                 clickedEl.addClass('favorited');
                 addMessage(trans('Обявление добавленно в закладки'));
@@ -87,7 +84,7 @@ jQuery(function ($) {
             }
         });
 
-        request.fail(function(response) {
+        request.fail(function (response) {
             addMessage('danger', 'Что-то пошло не так')
         });
 
@@ -101,26 +98,25 @@ function trans(message) {
 }
 
 function addMessage(key, message) {
-    if ( message == undefined ) {
+    if (message == undefined) {
         message = key;
         key = 'info';
     }
     var messageEl = $('<div />', {
-        'class' :   'alert alert-' + key,
-        'style'  :   'display: none; z-index: 300'
+        'class': 'alert alert-' + key,
+        'style': 'display: none; z-index: 300'
     }).append(message);
 
     messageEl.append($('<button />', {
         'type': 'button',
-        'class' : 'close',
-        'data-dismiss' : 'alert'
+        'class': 'close',
+        'data-dismiss': 'alert'
     }).append($('<span />', {
-        'aria-hidden' : "true"
+        'aria-hidden': "true"
     }).append('&nbsp;&nbsp;&times;')));
 
     $('#notification').append(messageEl);
     $('#notification').css('z-index', '200');
-
 
 
     $('body').find('#notification .alert').each(function (item, obj) {
@@ -137,25 +133,25 @@ function addMessage(key, message) {
 }
 
 function playNotify(notifySound) {
-    if ( notifySound == undefined ) {
+    if (notifySound == undefined) {
         var notifySound = 'notify';
     }
 
     var audioNotifyElement = $('#audio-notification');
-    if (audioNotifyElement.length == 0){
+    if (audioNotifyElement.length == 0) {
         var audioNotifyElement = $('<audio />', {
-            'id' : 'audio-notification'
+            'id': 'audio-notification'
         });
     }
 
-    if (audioNotifyElement.find('source[data-key=notify]').length == 0){
+    if (audioNotifyElement.find('source[data-key=notify]').length == 0) {
         audioNotifyElement.append($('<source />', {
-            'src' : '/assets/sound/' + notifySound + '.mp3',
+            'src': '/assets/sound/' + notifySound + '.mp3',
             'type': 'audio/mpeg',
-            'data-key' : 'notify'
+            'data-key': 'notify'
         }));
     }
-    
+
     audioNotifyElement.appendTo('body');
     $(audioNotifyElement)[0].play();
     console.log('must be played');

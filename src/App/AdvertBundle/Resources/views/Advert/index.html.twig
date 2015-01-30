@@ -10,10 +10,6 @@
     {{ parent() }}
 {% endblock %}
 
-{% block actions %}
-    {#<a href="{{ path('advert_new') }}" class="btn btn-default">{{ 'action.create'|trans }}</a>#}
-{% endblock %}
-
 {% block body -%}
     <div class="col-md-3 sidebar-offcanvas sidebar-offcanvas-sm">
         {{ render(controller('AdvertBundle:Component:filters')) }}
