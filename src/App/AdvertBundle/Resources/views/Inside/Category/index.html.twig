@@ -1,0 +1,68 @@
+{% extends ':Secured:insideSecured.html.twig' %}
+
+{% set title = 'Категории' %}
+
+{% block actions %}
+    <a class="btn btn-default" title="{{ 'action.create'|trans }}" href="{{ path('inside.category.new') }}"><i
+                class="fa fa-plus"></i></a>
+{% endblock %}
+
+{% block body -%}
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Родитель</th>
+            <th>Уроверь</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody id="rows">
+        {% for entity in entities %}
+            <tr data-id="{{ entity.id }}">
+                <td><a href="{{ path('inside.category.show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('category', {'parent_id':entity.parent.id}) }}">{{ entity.title }}</a></td>
+                <td>{% if entity.parent is not null %}{{ entity.parent.title }}{% endif %}</td>
+                <td>{{ entity.lvl }}</td>
+                <td>
+                    <div class="btn-group btn-group-sm pull-right">
+                        <a class="btn btn-default"
+                           href="{{ path('inside.category.show', { 'id': entity.id }) }}">show</a>
+                        <a class="btn btn-default"
+                           href="{{ path('inside.category.edit', { 'id': entity.id }) }}">edit</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ block('javasript') }}
+{% endblock %}
+
+{#{% block javascript %}#}
+    {#{% block javascripts %}#}
+        {#{{ parent() }}#}
+        {#<script type="text/javascript">#}
+            {#$(document).ready(function ($) {#}
+                {#$('#rows .item').on('click', function () {#}
+                    {#var row = $(this).parents('tr.row');#}
+                    {#var id = $(this).parents('tr.row').data('id');#}
+
+                    {#if (row.hasClass('opened')) {#}
+                        {#$(row).find('i').first().removeClass('fa-angle-right').addClass('fa-angle-down');#}
+                        {#$('tr.row[data-parent-id="' + id + '"]').slideUp();#}
+                        {#row.removeClass('opened');#}
+                    {#} else {#}
+                        {#$('tr.row[data-parent-id="' + id + '"]').slideDown();#}
+                        {#$(row).find('i').first().removeClass('fa-angle-down').addClass('fa-angle-right');#}
+                        {#row.addClass('opened');#}
+                    {#}#}
+                {#});#}
+            {#});#}
+        {#</script>#}
+    {#{% endblock %}#}
+{#{% endblock %}#}
+
+

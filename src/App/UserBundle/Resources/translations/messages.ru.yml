@@ -1,0 +1,12 @@
+profile:
+    one:            Профиль
+    many:           Профили
+    firstName:      Имя
+    lastName:       Фамилия
+    email:          Электронная почта
+    gender:         Пол
+
+property:
+    firstName:      Имя
+    lastName:       Фамилия
+    email:          Электронная почта

@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Редактирование категории
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'path': path('category'), 'title': 'category.many'|trans },
+    { 'path': path('category_show', {'id':entity.id}), 'title': 'action.show'|trans },
+    { 'title': 'action.edit'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block actions %}
+    <a class="btn btn-default" href="{{ path('category_show', {'id':entity.id}) }}">{{ 'action.back'|trans }}</a>
+{% endblock %}
+
+{% block body -%}
+
+    {{ form_start(form) }}
+    <div class="row">
+        {% set fields = ['title', 'parent', 'alias', 'icon', 'image', 'isEnabled'] %}
+        {% for field in fields %}
+            <div class="col-lg-6">
+                {{ form_row(form[field]) }}
+            </div>
+        {% endfor %}
+    </div>
+
+    {{ form_end(form) }}
+
+{% endblock %}

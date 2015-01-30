@@ -1,0 +1,12 @@
+advert:
+    one:            Обявление
+    many:           Обявления
+    create_new:     Добавить обявление
+    title:          Заголовок
+    category:       Раздел
+    price:          Стоимость
+    content:        Описание
+
+category:
+    one:            Категория
+    many:           Категории

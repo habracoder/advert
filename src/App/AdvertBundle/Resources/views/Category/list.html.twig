@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Список категорий
+{% endblock %}
+
+{% block actions %}
+    {% if mvUp is not null %}
+        <a class="btn btn-default" href="{{ mvUp }}">На уровень выше</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'title': 'category.many'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body -%}
+    {{ block('actions') }}
+    {% if entities|length > 0 %}
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Alias</th>
+            <th>position</th>
+            <th>Icon</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('category_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('category', {'cat_id':entity.id}) }}">{{ entity.title }}</a></td>
+                <td>{{ entity.alias }}</td>
+                <td>{{ entity.position }}</td>
+                <td>{% if entity is not null %}<i class="{{ entity.icon }}"></i>{% endif %}</td>
+                <td>
+                    <div class="btn-group btn-group-xs pull-right">
+                        <a class="btn btn-default" href="{{ path('category', {'position':'up', 'entity':entity.id}) }}"><i class="fa fa-arrow-up"></i></a>
+                        <a class="btn btn-default" href="{{ path('category', {'position':'down', 'entity':entity.id}) }}"><i class="fa fa-arrow-down"></i></a>
+                        <a class="btn btn-default" href="{{ path('category_show', { 'id': entity.id }) }}">{{ 'action.show'|trans }}</a>
+                        <a class="btn btn-default" href="{{ path('category_edit', { 'id': entity.id }) }}">{{ 'action.edit'|trans }}</a>
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        {{ include('@Core/Section/noResult.html.twig') }}
+    {% endif %}
+
+    <a class="btn btn-primary btn-sm" href="{{ path('category_new') }}">{{ 'action.create'|trans }}</a>
+{% endblock %}

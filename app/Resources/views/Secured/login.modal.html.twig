@@ -1,0 +1,88 @@
+{% if is_granted("ROLE_USER") %}
+{% else %}
+    {% trans_default_domain 'FOSUserBundle' %}
+    <div class="modal fade" id="login-overlay" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span
+                                class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="loginModalLabel">{{ 'layout.login'|trans }}</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="well">
+                                <form id="loginForm" method="POST" action="{{ path("security_check") }}" novalidate="novalidate">
+                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+                                    <div class="form-group">
+                                        <label for="username" class="control-label">{{ 'form.email'|trans }}</label>
+                                        <input type="text" class="form-control" id="username" name="_username" value=""
+                                               required="" title="Please enter you email"
+                                               placeholder="example@gmail.com">
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="password" class="control-label">{{ 'security.login.password'|trans }}</label>
+                                        <input type="password" class="form-control" id="password" name="_password"
+                                               value="" required="" title="Please enter your password">
+                                        <span class="help-block"></span>
+                                    </div>
+                                    <div id="loginErrorMsg" class="alert alert-error hide">Wrong username og password
+                                    </div>
+                                    <div class="checkbox">
+
+                                        <label>
+                                            <input type="checkbox" id="remember_me" name="_remember_me" checked="checked"> {{ 'security.login.remember_me'|trans }}
+                                        </label>
+                                    </div>
+                                    <button type="submit" class="btn btn-success btn-block">{{ 'security.login.submit'|trans }}</button>
+                                    <p id="loginResponse" class="text-danger text-center"></p>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <p class="lead">Регистрация <span class="text-success text-bold">БЕСПЛАТНАЯ</span></p>
+                            <ul class="list-unstyled" style="line-height: 2">
+                                <li><span class="fa fa-check text-success"></span> Выставляйте товар на продажу</li>
+                                <li><span class="fa fa-check text-success"></span> Покупайте по низким ценам</li>
+                                <li><span class="fa fa-check text-success"></span> Зарабатывайте деньги</li>
+                                <li><span class="fa fa-check text-success"></span> Распродайте домашний хлам</li>
+                                <li><span class="fa fa-check text-success"></span> Получите прибыль</li>
+                            </ul>
+                            <p><a href="{{ path('fos_user_registration_register') }}" class="btn btn-info btn-block">Да, хочу зарегистрироваться!</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function($){
+            $('form input').on('focus', function(){
+                $('#loginResponse').slideUp().html('');
+            });
+
+            $('form#loginForm').on('submit', function(e){
+                var loginForm = $(this);
+                e.preventDefault();
+                $.ajax({
+                    type        : loginForm.attr( 'method' ),
+                    url         : loginForm.attr( 'action' ),
+                    data        : loginForm.serialize(),
+                    dataType    : 'json',
+                    success     : function(response, status, object) {
+                        if (response.success == false) {
+                            $('#loginResponse').html(response.message);
+                            $('#loginResponse').slideDown();
+                        } else {
+                            window.location.reload();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{% endif %}

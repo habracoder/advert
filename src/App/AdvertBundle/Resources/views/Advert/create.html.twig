@@ -1,0 +1,62 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Создание обявления
+{% endblock %}
+
+{% block actions %}
+    <a class="btn btn-default" href="{{ path('advert') }}">К списку</a>
+{% endblock %}
+
+{% block body -%}
+    <div class="row">
+        <div class="col-md-3">
+            {{ render(controller('UserBundle:Component:sidebarProfile')) }}
+        </div>
+        <div class="col-md-9">
+            <div class="box">
+                {{ form_start(form, {'attr':{'class':'form-horizontal'}}) }}
+                {{ bootstrap_set_style('horizontal') }}
+                {% set fields = ['title', 'category', 'price', 'content'] %}
+                {% for field in fields %}
+                    {{ form_row(form[field]) }}
+                {% endfor %}
+                {{ bootstrap_set_style('') }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var advertForm = $('form[name=advert_advert_create]');
+            $(advertForm).children().on('change', function (obj) {
+                $.ajax({
+                    'url': advertForm.attr('action'),
+                    'dataType': 'json',
+                    'data': $(advertForm).serialize(),
+                    'type': 'post',
+                    'success': function (response) {
+                        if ('success' === response.status) {
+                            var entityHidden = $(advertForm).find('[name=entity_id]');
+                            console.log(entityHidden);
+                            if ($(entityHidden).size() == 0) {
+                                $(advertForm).append($("<input/>",
+                                        {
+                                            'type': 'hidden',
+                                            'id': 'entity_id',
+                                            'name': 'entity_id',
+                                            'value': response.entity_id
+                                        }));
+                            }
+                        }
+                    }
+                });
+                console.log()
+            });
+        });
+    </script>
+{% endblock %}

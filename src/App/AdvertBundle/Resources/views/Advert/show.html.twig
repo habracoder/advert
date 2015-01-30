@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {{ entity.title }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'path': path('advert'), 'title': 'Обявления'|trans },
+    { 'title': 'action.show'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{#{% block actions %}#}
+    {#<a href="{{ path('advert_edit', { 'id': entity.id }) }}" class="btn btn-default">{{ 'action.edit'|trans }}</a>#}
+    {#<a href="{{ path('advert') }}" class="btn btn-default">{{ 'action.back'|trans }}</a>#}
+{#{% endblock %}#}
+
+{% block body -%}
+
+    <div class="row">
+        <div class="col-lg-4">
+            <img class="img img-thumbnail" src="{{ asset('assets/img/no_photo.png') }}">
+        </div>
+        <div class="col-lg-8">
+            <div class="price">
+                <h2>Цена: {{ entity.price|localizedcurrency('UAH') }}</h2>
+            </div>
+            <div class="description">
+                {{ entity.content }}
+            </div>
+            <hr />
+            <div class="additions">
+                Просмотренно: {{ entity.countOfViews }} |
+                Создано {{ entity.createdAt|localizeddate('medium', 'none') }}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

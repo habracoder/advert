@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    Изминение обявления
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'path': path('advert'), 'title': 'advert.many'|trans },
+    { 'path': path('advert_show', {'id': entity.id}), 'title': 'action.show'|trans },
+    { 'title': 'Изминение обявления'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block actions %}
+    <a onclick="$('#advert_advert').parents('form').submit()" class="btn btn-default">{{ 'action.update'|trans }}</a>
+    <a href="{{ path('advert_show', {'id': entity.id}) }}" class="btn btn-default">{{ 'action.back'|trans }}</a>
+{% endblock %}
+
+{% block body -%}
+    {{ form(edit_form) }}
+{% endblock %}

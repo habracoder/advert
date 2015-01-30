@@ -1,0 +1,107 @@
+{% extends 'base.html.twig' %}
+
+{% set nav_side_items = [
+    {
+        'text': 'Панель управления'|trans,
+        'route': 'inside.dashboard',
+        'icon': 'fa fa-dashboard fa-fw'
+    },
+    {
+        'text': 'Категории'|trans,
+        'route': 'inside.category',
+        'icon': 'fa fa-sitemap fa-fw'
+    }
+] %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% stylesheets
+    '@CoreBundle/Resources/public/inside/css/main.css'
+    filter='cssrewrite' %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
+{% block navigation %}
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">{INSIDE}</a>
+    </div>
+    <!-- /.navbar-header -->
+
+    <ul class="nav navbar-top-links navbar-right">
+    <!-- /.dropdown -->
+    <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+            <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-user">
+            <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+            </li>
+            <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+            </li>
+            <li class="divider"></li>
+            <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+            </li>
+        </ul>
+        <!-- /.dropdown-user -->
+    </li>
+    <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+{% endblock %}
+
+{% block sidebar %}
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+                <li class="sidebar-search">
+                    <div class="input-group custom-search-form">
+                        <input type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                    </div>
+                    <!-- /input-group -->
+                </li>
+                {% if nav_side_items is defined %}
+                    {% for nav_01 in nav_side_items %}
+                        <li
+                                {% if (nav_01.route is not defined and nav_01.routes is defined and app.request.get('_route') in nav_01.routes) %}
+                                    class="active"
+                                {% endif %}
+                                >
+
+                            {% if nav_01.route is defined %}
+                                <a href="{{ path(nav_01.route) }}" {% if nav_01.route == app.request.get('_route') %} class="active" {% endif %}><i
+                                            class="fa fa-{{ nav_01.icon }}"></i> &nbsp; {{ nav_01.text }}</a>
+                            {% else %}
+                                <a href="#"><i class="fa fa-{{ nav_01.icon }}"></i> &nbsp; {{ nav_01.text }}<span
+                                            class="fa arrow"></span></a>
+                                {% if nav_01.child is defined %}
+                                    <ul class="nav nav-second-level collapse">
+                                        {% for nav_02 in nav_01.child %}
+                                            <li>
+                                                <a href="{{ path(nav_02.route) }}"{% if nav_02.route == app.request.get('_route') %} class="active" {% endif %}><i
+                                                            class="fa fa-{{ nav_02.icon }}"></i>
+                                                    &nbsp; {{ nav_02.text }}</a></li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            {% endif %}
+
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+

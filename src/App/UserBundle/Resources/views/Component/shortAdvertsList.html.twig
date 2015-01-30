@@ -1,0 +1,64 @@
+{% if entities|length > 0 %}
+<div class="product-list grid-layout clearfix">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 the-title">
+            <div class="row">
+                <div class="col-md-7 col-sm-7 col-xs-8">
+                    <h3>{{ heading_title }}</h3>
+                    <span>{{ heading_descr }}</span>
+                </div>
+                <div class="col-md-5 col-sm-5 col-xs-4">
+                    <a class="pull-right btn btn-flat-alizarin">Показать больше <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+
+        {% for advert in entities %}
+
+        <div class="prop-item col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <div class="thumbnail-img thumbscrubber">
+                <span class="ts-inner">
+                    <img src="http://upload.wikimedia.org/wikipedia/commons/8/89/Semi-detached_house_in_Darlow_Street%2C_Wagga_Wagga.jpg"
+                         alt="House" class="ts-currslide">
+                    <img src="http://upload.wikimedia.org/wikipedia/commons/7/75/Family-room-700.jpg" alt="Family Room" class="">
+                    <img src="http://upload.wikimedia.org/wikipedia/commons/3/39/METLA_SUIHKU_big.jpg" alt="Bathroom" class="">
+                    <img src="http://upload.wikimedia.org/wikipedia/commons/b/b2/Fully_Furnished_Atenas_Apartments_for_rent.jpg" alt="Kitchen"
+                         class="">
+                </span>
+                </div>
+
+                <div class="thumbnail-body">
+                    <div class="caption">
+                        <a href="">
+                            <h3>Cute House</h3>
+                            <span class="prop-address">12, Bull Road, Kuala Lumpur</span>
+
+                            <div class="prop-price">$125 <span>/ mo</span></div>
+                        </a>
+                    </div>
+
+                    <div class="content clearfix">
+                        <ul class="list-unstyled feature-list">
+                            <li>4 Bedrooms</li>
+                            <li>3 Baths</li>
+                            <li>1000 ft <sup>2</sup></li>
+                        </ul>
+
+                        <div class="link-action clearfix">
+                            {% set status = advert.userBookmarks.contains(app.user) ? 'favorited' : '' %}
+                            <a href="#" class="col-md-6 col-sm-6 col-xs-6 save-favorite {{ status }}" data-handler="bookmark" data-id="{{ advert.id }}" data-toggle="tooltip" data-placement="top" title=""
+                               data-original-title="Save to Favorite"><i class="fa fa-star"></i></a>
+                            <a href="#" class="col-md-6 col-sm-6 col-xs-6 contact-agent" data-toggle="tooltip2" data-placement="top" title="" data-original-title="Contact Agent"><i
+                                        class="fa fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endif %}

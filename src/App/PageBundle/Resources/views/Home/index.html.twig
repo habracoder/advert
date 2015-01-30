@@ -1,0 +1,40 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+    {{ render(controller('CoreBundle:Widget:searchPanel')) }}
+
+    <div class="row">
+        {% for category in categories %}
+            <div class="col-xs-2 text-center" style="margin-bottom: 20px">
+                <a href="{{ path('advert', {'alias':category.alias}) }}">
+                {% if category.image %}
+                    <img class="image img-thumbnail" src="{{ category.image }}" />
+                {% else %}
+                    <i style="font-size: 64px" class="{{ category.icon }}"></i>
+                {% endif %}
+                    <br/>
+                    {{ category.title }}
+
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus egestas, neque et vehicula cursus, urna est
+        venenatis ligula, condimentum mollis magna ligula sit amet turpis. Aenean luctus ornare eros, sed pretium lacus.
+        Vivamus auctor erat non efficitur consectetur. Nam a hendrerit sem, id venenatis mi. Mauris elit dui, sagittis
+        et metus vitae, accumsan molestie velit. Aliquam gravida dui non ex sollicitudin, tincidunt semper orci blandit.
+        Etiam commodo lorem id dapibus gravida. Pellentesque placerat dapibus vulputate. Sed sit amet laoreet sem.
+        Curabitur placerat odio in velit egestas consequat. Interdum et malesuada fames ac ante ipsum primis in
+        faucibus. Donec ac blandit massa.</p>
+    <p>Suspendisse nunc lectus, elementum et ultricies ut, fringilla ut libero. Integer vitae mi sagittis, eleifend quam
+        ac, aliquam lacus. Donec tristique fringilla elit ac porta. Curabitur mollis nunc id suscipit hendrerit. Proin
+        nec ex malesuada, blandit tortor nec, efficitur mauris. Etiam tincidunt sodales quam non aliquam. Fusce vitae
+        cursus mi. Fusce facilisis dolor nunc. Nulla quis purus sit amet purus mattis rhoncus. Morbi tincidunt diam nec
+        ante commodo, condimentum ultricies dolor placerat. Nullam vel tortor interdum, finibus est pretium, porttitor
+        lectus. In lorem est, porta ut ante vestibulum, scelerisque rhoncus leo. Nunc eu leo a leo vulputate faucibus.
+        Praesent cursus sed tortor et tempor. Sed dui quam, sodales id purus aliquet, viverra accumsan metus.</p>
+{% endblock %}

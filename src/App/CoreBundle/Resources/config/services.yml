@@ -1,0 +1,10 @@
+parameters:
+    core.entity.listener.class:         App\CoreBundle\EventListener\EntityListener
+
+services:
+    enity.listener:
+        class: %core.entity.listener.class%
+        arguments: [@service_container]
+        tags:
+            - { name: doctrine.event_listener, event: prePersist, method: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate,  method: preUpdate }

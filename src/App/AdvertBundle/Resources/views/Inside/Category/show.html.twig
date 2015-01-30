@@ -1,0 +1,64 @@
+{% extends ':Secured:insideSecured.html.twig' %}
+
+{% set title = 'Категория: ' ~ entity.title %}
+
+{% block actions %}
+    <a class="btn btn-default" href="{{ path('inside.category.edit', { 'id': entity.id }) }}"
+       title="{{ 'action.back'|trans }}">
+        <span class="fa fa-edit"></span></a>
+    <a class="btn btn-danger" onclick="$('#delete_form').parents('form').submit()" title="{{ 'action.delete'|trans }}">
+        <i class="fa fa-trash-o fa-fw"></i></a>
+    <a class="btn btn-default" href="{{ path('inside.category') }}" title="{{ 'action.back'|trans }}">
+        <span class="fa fa-undo fa-fw"></span></a>
+{% endblock %}
+
+{% block body -%}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <div class="panel-title">Параметры</div>
+        </div>
+        <div class="panel-body">
+            {{ block('parameters') }}
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block parameters %}
+    <table class="table table-property">
+        <thead>
+        <tr>
+            <th>Параметр</th>
+            <th>Значение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th>ID</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Название</th>
+            <td>{{ entity.title }}</td>
+        </tr>
+        {% if entity.icon is not null %}
+            <tr>
+                <th>Icon</th>
+                <td><i class="{{ entity.icon }}"></i></td>
+            </tr>
+        {% endif %}
+        {% if entity.image is not null %}
+            <tr>
+                <th>Image</th>
+                <td><img src="{{ entity.image }}" height="32"/></td>
+            </tr>
+        {% endif %}
+        <tr>
+            <th>Путь</th>
+            <td>{{ entity }}</td>
+        </tr>
+        </tbody>
+    </table>
+{% endblock %}

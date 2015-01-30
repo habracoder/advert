@@ -1,0 +1,13 @@
+{% if breadcrumbs is defined %}
+    <div id="breadcrumbs" class="row pull-right">
+        <p>
+            {% for key,value in breadcrumbs %}
+                {% if key == (breadcrumbs|length - 1) %}
+                    <span class="current-page">{{ value.title }}</span>
+                {% else %}
+                    <a href="{{ value.path }}">{{ value.title }}</a>
+                {% endif %}
+            {% endfor %}
+        </p>
+    </div>
+{% endif %}

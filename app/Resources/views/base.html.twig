@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>{% if title is defined %}{{ title }}{% else %}{{ project }}{% endif %}</title>
+
+    {% block stylesheets %}
+        {% for stylesheet in [
+        'assets/vendor/bootstrap/css/bootstrap.min.css',
+        'assets/vendor/font-awesome/css/font-awesome.min.css',
+        'assets/css/style.css',
+        'assets/css/main.css',
+        ] %}
+            <link href="{{ asset(stylesheet) }}" rel="stylesheet"/>
+        {% endfor %} {% endblock %}
+    {% include 'BraincraftedBootstrapBundle::ie8-support.html.twig' %}
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {"callback": "fos.Router.setData"}) }}"></script>
+
+    {% block javascripts %}
+        {% for javascript in [
+        'assets/vendor/jquery/jquery-2.1.1.min.js',
+        'assets/vendor/bootstrap/js/bootstrap.min.js',
+        'assets/js/main.js',
+        ] %}
+        <script type="text/javascript" src="{{ asset(javascript) }}"></script>
+        {% endfor %}
+        <script src="{{ asset('assets/vendor/fileupload/js/vendor/jquery.ui.widget.js') }}"></script>
+        <script src="{{ asset('assets/vendor/fileupload/js/jquery.iframe-transport.js') }}"></script>
+        <script src="{{ asset('assets/vendor/fileupload/js/jquery.fileupload.js') }}"></script>
+    {% endblock %}
+</head>
+
+<body>
+<div class="site-wrapper">
+    <div class="site-row row-offcanvas row-offcanvas-left">
+        {% block alerts %}
+            {% include 'CoreBundle:Form:alerts.html.twig' %}
+        {% endblock %}
+
+        {% block navigation %}
+            <section id="header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            {% set navigation_links = [
+                            {
+                            'title':'Главная',
+                            'path':'homepage'
+                            },
+                            {
+                            'title':'Обявления',
+                            'path':'advert'
+                            },
+                            {
+                            'title':'Рубрики',
+                            'path':'category'
+                            }
+                            ] %}
+                            <!-- Fixed navbar -->
+                            <nav class="navbar navbar-default" role="navigation">
+                                <div class="navbar-header">
+                                    <a class="navbar-brand" href="{{ path('homepage') }}">{{ project }}</a>
+                                </div>
+                                <div id="navbar" class="navbar-collapse collapse">
+                                    <ul class="nav navbar-nav">
+                                        {% for link in navigation_links %}
+                                            <li class=""><a href="{{ path(link.path) }}">{{ link.title }}</a></li>
+                                        {% endfor %}
+
+                                    </ul>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li><a href="#{{ path('advert_create') }}">{{ 'advert.create_new'|trans }}</a></li>
+
+                                        {% if is_granted("ROLE_USER") %}
+                                            <li class="dropdown">
+                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                                                   role="button"
+                                                   aria-expanded="false"> Профиль <span class="caret"></span></a>
+                                                <ul class="dropdown-menu" role="menu">
+                                                    <li><a href="{{ path('profile.show', {'id':app.user.id}) }}">Профиль</a></li>
+                                                    <li><a href="{{ path('profile.edit') }}">Настройки</a></li>
+                                                    <li><a href="{{ path('fos_user_security_logout') }}">Выйти</a></li>
+                                                </ul>
+                                            </li>
+                                        {% else %}
+                                            <li class="">
+                                                <a class="login" data-toggle="modal"
+                                                   href="#login-overlay">{{ 'security.login.submit'|trans }}</a>
+
+                                            </li>
+                                            <li>
+                                                <a class="register"
+                                                   href="{{ path('fos_user_registration_register') }}">{{ 'security.registration.submin'|trans }}</a>
+                                            </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endblock %}
+
+        <section id="title-section" class="micro">
+            <div class="title-section">
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class="title-section-content">
+                            <h1 class="title-heading">{% block title %}{% endblock %}</h1>
+                        </div>
+                    </div>
+                    {% block breadcrumbs %}
+                        {#{% include 'CoreBundle:Blocks:breadcrumbs.html.twig' %}#}
+                    {% endblock %}
+                </div>
+            </div>
+        </section>
+
+        {#<div class="page-actions">#}
+        {#<div class="btn-group btn-sm">#}
+        {#{% block actions %}#}
+        {#{% endblock %}#}
+        {#</div>#}
+        {#</div>#}
+        <div class="container overflow-hidden">
+            <div class="row row-offcanvas row-offcanvas-left row-offcanvas-sm row-offcanvas-sm-left row-offcanvas-xs box-padding">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+        {% block loginModal %}
+            {{ include(':Secured:login.modal.html.twig') }}
+            {{ render(controller('AdvertBundle:Component:newAdvertModal')) }}
+            {#{{ render(controller('CoreBundle:Widget:loginModal')) }}#}
+        {% endblock %}
+    </div>
+</div>
+</body>
+</html>

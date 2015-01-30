@@ -1,0 +1,13 @@
+<div class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Project name</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            {{ include('@Core/Widget/partial/navigation_menu.html.twig', {'menu':menu.left, 'position':'left'}) }}
+            {{ include('@Core/Widget/partial/navigation_menu.html.twig', {'menu':menu.right, 'position':'right'}) }}
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+    <!--/.container-fluid -->
+</div>

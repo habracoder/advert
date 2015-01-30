@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+{% trans_default_domain "app" %}
+
+{% block title %}
+    {{ 'label.settings'|trans }}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'path': path('profile.show', {'id': entity.id}), 'title': 'profile.one'|trans },
+    { 'title': 'label.edit'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            {{ render(controller('UserBundle:Profile:uploadImage')) }}
+        </div>
+        <div class="col-md-9">
+            <div class="box">
+                {{ form_start(form, {'attr':{'class':'form-horizontal'}}) }}
+                {{ bootstrap_set_style('horizontal') }}
+                {% set fields = ['firstName', 'lastName', 'gender', 'email'] %}
+                {% for field in fields %}
+                    {{ form_row(form[field]) }}
+                {% endfor %}
+                {{ form_row(form.plainPassword.first) }}
+                {{ form_row(form.plainPassword.second) }}
+                <div class="form-group">
+                    <div class="col-lg-offset-4 col-md-8">
+                        {{ form_widget(form.submit) }}
+                    </div>
+                </div>
+
+                {{ bootstrap_set_style('') }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock body %}

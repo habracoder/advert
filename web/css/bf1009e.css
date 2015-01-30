@@ -1,0 +1,32 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+}
+
+.page-header {
+    margin: 20px 0 35px;
+}
+
+/** end sidebar */
+
+.fa {
+    line-height: 1.5em;
+}
+
+#page-wrapper {
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.page-actions {
+    display:    block;
+    position:   absolute;
+    right:      30px;
+    top:        18px;
+    text-align: right;
+}
+
+.page-actions-frame {
+    right:      0px;
+    top:        10px;
+}

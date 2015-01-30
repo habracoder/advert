@@ -1,0 +1,52 @@
+<div class="box text-center">
+    {% if image.webPath is not null %}
+        {% set img = image.webPath %}
+    {% else %}
+        {% set img = 'assets/img/no_photo.png' %}
+    {% endif %}
+    <img id="avatar_image" class="img img-thumbnail" src="{{ asset(img) }}"/>
+    <br />
+    <br />
+
+    {{ form_start(form) }}
+        {{ form_widget(form.file, {'attr': {'class':'hidden'}}) }}
+    {{ form_end(form) }}
+</div>
+
+<script>
+    $(function () {
+        var avatarInput = $('input[id$=user_image_file]').first();
+
+        $(avatarInput).trigger('click');
+
+        avatarInput.after(
+                $('<a/>', {
+                    'class' : 'btn btn-default',
+                    'text' : 'Изменить',
+                    'id': 'change_avatar'
+                })
+        );
+
+        $('body').on('click', '#change_avatar', function(){
+            avatarInput.trigger('click');
+        });
+
+        $(avatarInput).fileupload({
+            url: Routing.generate('profile_upload_image'),
+            sequentialUploads: true,
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                $('#progress .bar').css(
+                        'width',
+                        progress + '%'
+                );
+            },
+            success : function(response){
+                if (response.status == 'success'){
+                    $('#avatar_image').attr('src', response.image);
+                    addMessage('success', 'Изображение успешно измененно');
+                }
+            }
+        });
+    });
+</script>

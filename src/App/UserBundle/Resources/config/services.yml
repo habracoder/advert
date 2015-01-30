@@ -1,0 +1,9 @@
+services:
+    acme_user.registration.form.type:
+        class: App\UserBundle\Form\RegistrationFormType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
+    authentication_handler:
+        class:        App\UserBundle\Handler\AuthenticationHandler
+        arguments:    [@router, @security.context, @fos_user.user_manager, @service_container]

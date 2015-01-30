@@ -1,0 +1,105 @@
+project:
+    name:               Advert
+    homepage:           Главная
+
+property:
+    name:               Название
+    full_name:          Имя
+    is_enabled:         Активен
+    created_at:         Дата создания
+    updated_at:         Дата изменения
+    email:              Электронная почта
+    enabled:            Активный?
+    description:        Описание
+    new_password:       Новый пароль
+    confirm_password:   Повторите пароль
+    firstName:          Имя
+    lastName:           Фамилия
+    father_name:        Отчество
+    last_login:         Последний вход
+    code:               Код
+    duration:           Срок
+    unit:               Единицы измерения
+    day:                День
+    month:              Месяц
+    year:               Год
+    percentage:         Процент
+    sum_insured:        Страховая сумма
+    min:                Минимальное значение
+    max:                Максимальное значение
+    passport_series:    Серия паспорта
+    passport_number:    Номер паспорта
+    inn:                Идентификационный код
+    passport:           Паспорт
+    date_from:          Действительный с
+    date_till:          Действительный по
+    passport_issued_by: Кем выпущен
+    passport_issued_at: Когда выпущен
+    attachments:        Прикрепленные файлы
+    payment_system:     Платежная система
+    phone_number:       Номер телефона
+    cost:               Страховая премия
+
+action:
+    edit:               Изменить
+    create:             Добавить
+    update:             Изменить
+    select:             Выбрать
+    delete:             Удалить
+    logout:             Выйти
+    send:               Отправить
+    continue:           Продолжить
+    show:               Просмотр
+    back:               Вернуться
+    copy:               Копировать
+    go_to_homepage:     Перейти на главную
+
+form:
+    validate:
+        error:              Проверьте форму
+        match_password:     Пароли должны совпадать
+        wrong_range:        Неправельный диапазон
+        range_already_use:  Диапазон уже используеться
+
+    save:
+        success:        Запись успешно сохраненна
+        error:          При сохранении прозошла непредвиденая ошибка
+    remove:
+        success:        Удаление выполненно успешно
+        error:          При удалении произошла ошибка
+
+tabs:
+    data:               Данные
+    step:               Шаг
+
+settings:               Настройки
+
+security:
+    login:
+        submit:         Вход
+    registration:
+        submin:         Зарегистрироваться
+
+email:
+    letter:
+        greeting: Уважаемый
+        thanks: С уважением
+        sign:
+            description: 'Вы начали процедуру оформления договора. Чтобы продолжить скопируйте код ниже и вставьте его в поле для подписания.'
+
+
+label:
+    settings:   Настройки
+    edit:       Изминение
+
+'I have read and accept the %general_terms_and_conditions%.': 'Я прочитал и соглашаюсь с %general_terms_and_conditions%.'
+'General Terms and Conditions': 'договором оферты'
+'Read the General Terms and Conditions': 'Прочитать договор оферты'
+'Calculating the cost of the agreement': 'Рассчет стоимости продукта'
+
+# Statuses.
+status: Статус
+signed: Подписан
+paid: Оплачен
+draft: Ожидает подписания
+canceled: Отменен

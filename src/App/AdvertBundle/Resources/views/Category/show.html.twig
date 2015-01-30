@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+
+{% block actions %}
+    <a class="btn btn-default" href="{{ path('category') }}">{{ 'action.back'|trans }}</a>
+    <a class="btn btn-default" href="{{ path('category_edit', { 'id': entity.id }) }}">{{ 'action.edit'|trans }}</a>
+{% endblock %}
+
+{% block title %}
+    Категория: "{{ entity.title }}"
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'path': path('category'), 'title': 'category.many'|trans },
+    { 'title': 'action.show'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body -%}
+    <br />
+    <table class="table table-property">
+        <tbody>
+        <tr>
+            <th>Id</th>
+            <td>{{ entity.id }}</td>
+        </tr>
+        <tr>
+            <th>Title</th>
+            <td>{{ entity.title }}</td>
+        </tr>
+        <tr>
+            <th>Alias</th>
+            <td>{{ entity.alias }}</td>
+        </tr>
+        <tr>
+            <th>icon</th>
+            <td>{{ entity.icon }}</td>
+        </tr>
+        <tr>
+            <th>Image</th>
+            <td>{{ entity.image }}</td>
+        </tr>
+        </tbody>
+    </table>
+    {{ form(delete_form) }}
+{% endblock %}

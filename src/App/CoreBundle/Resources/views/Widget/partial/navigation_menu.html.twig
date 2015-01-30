@@ -1,0 +1,30 @@
+{% if menu|length > 0 %}
+    <ul class="nav navbar-nav{% if position == 'right' %} navbar-right{% endif %}">
+        {% for item in menu %}
+            {% set liClasses    = [] %}
+            {% set aClasses     = [] %}
+            {% if 'active' in item %}
+                {% if item.active == true %}
+                    {% set liClasses = liClasses|merge(['active']) %}
+                {% endif %}
+            {% endif %}
+
+            {% if item.children is defined %}
+                {% set aClasses = aClasses|merge(['dropdown-toggle']) %}
+            {% endif %}
+
+            <li class="{{ liClasses|join(' ') }}">
+                <a class="{{ aClasses|join(' ') }}"
+                   href="{{ item.url }}"{% if item.children is defined %} data-toggle="dropdown"{% endif %}>{{ item.name }}
+                    {% if item.children is defined %} <b class="caret"></b>{% endif %}</a>
+                {% if item.children is defined %}
+                    <ul class="dropdown-menu">
+                        {% for child in item.children %}
+                            <li><a href="{{ child.url }}">{{ child.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}

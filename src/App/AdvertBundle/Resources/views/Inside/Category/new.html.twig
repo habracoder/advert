@@ -1,0 +1,15 @@
+{% extends ':Secured:insideSecured.html.twig' %}
+
+{% set title = 'Новая категория' %}
+{% block body -%}
+
+    {{ form(form) }}
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('inside.category') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}

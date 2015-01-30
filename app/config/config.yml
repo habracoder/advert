@@ -1,0 +1,150 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: doctrine_extensions.yml }
+
+framework:
+    #esi:             ~
+    translator: ~
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id:  ~
+    fragments:       ~
+    http_method_override: true
+
+parameters:
+    default_locale:             ru_RU
+    locales:                    [ru_RU]
+    project:                    "Advert"
+    paginator_limit:            10
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    form:
+        resources:
+            - BraincraftedBootstrapBundle:Form:bootstrap.html.twig
+            #- 'CoreBundle:Form:fields.html.twig'
+    globals:
+        project: %project%
+
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    filters:
+        less:
+             node: /usr/local/bin/node
+             node_paths: [/usr/local/lib/node_modules]
+             apply_to: "\.less$"
+        cssrewrite: ~
+    assets:
+
+braincrafted_bootstrap:
+    auto_configure:
+        twig: false
+#        knp_paginator: false
+    less_filter: less
+    jquery_path: '%kernel.root_dir%/../vendor/components/jquery/jquery.min.js'
+
+#knp_paginator:
+#    template:
+#        pagination: BraincraftedBootstrapBundle:Pagination:bootstrap.html.twig
+
+services:
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        mapping_types:
+            enum:       string
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+#        auto_mapping: true
+        entity_managers:
+            default:
+                mappings:
+                    UserBundle:  ~
+                    AdvertBundle:  ~
+                    StorageBundle:  ~
+                    gedmo_tree:
+                        type: annotation
+                        prefix: Gedmo\Tree\Entity
+                        dir: "%kernel.root_dir%/../vendor/gedmo/doctrine-extensions/lib/Gedmo/Tree/Entity"
+                        alias: GedmoTree # this one is optional and will default to the name set for the mapping
+                        is_bundle: false
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    spool:     { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: App\UserBundle\Entity\User
+    registration:
+        form:
+            type: app_user_registration
+
+stof_doctrine_extensions:
+    default_locale: %locale%
+    orm:
+        default:
+            tree: true
+
+#snc_redis:
+#    clients:
+#        default:
+#            type: predis
+#            alias: default
+#            dsn: redis://localhost
+
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        avatar:
+            quality: 75
+            filters:
+                thumbnail: { size: [150, 150], mode: outbound }
+
+
+
+
+
+
