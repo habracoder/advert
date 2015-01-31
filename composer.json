@@ -25,7 +25,8 @@
         "twbs/bootstrap": "~3.3",
         "components/jquery": "~2.1",
         "snc/redis-bundle": "~1.1",
-        "liip/imagine-bundle": "~1.2"
+        "liip/imagine-bundle": "~1.2",
+        "willdurand/js-translation-bundle": "@stable"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

@@ -103,3 +103,5 @@ signed: Подписан
 paid: Оплачен
 draft: Ожидает подписания
 canceled: Отменен
+
+'Something went wrong ;(' : 'Что-то пошло не так ;('

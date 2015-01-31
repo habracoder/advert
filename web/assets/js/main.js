@@ -62,40 +62,29 @@ jQuery(function ($) {
     });
 
     $('body').on('click', '[data-handler=bookmark]', function (e) {
-        var bottonElement = $(this);
-        var clickedEl = bottonElement;
-        if (false == bottonElement.hasClass('save-favorite')) {
-            var clickedEl = $(bottonElement).parents('.save-favorite');
-        }
+        var currentElement = $(this);
 
         var request = $.getJSON(
-            Routing.generate('add_advert_to_bookmark', {
-                'id': bottonElement.data('id')
+            Routing.generate('toggle_bookmark', {
+                'advert_id': currentElement.data('id')
             })
         );
 
         request.done(function (response) {
-            if (response.status == 'add') {
-                clickedEl.addClass('favorited');
-                addMessage(trans('Обявление добавленно в закладки'));
-            } else {
-                clickedEl.removeClass('favorited');
-                addMessage(trans('Обявление Удаленно из закладок'));
-            }
+            if (response.bookmark == 'added')
+                $(currentElement).addClass('favorited');
+            else
+                currentElement.removeClass('favorited');
+            addMessage(Translator.trans(response.message));
         });
 
         request.fail(function (response) {
-            addMessage('danger', 'Что-то пошло не так')
+            addMessage('error', Translator.trans(response.responseJSON.message))
         });
 
         return false;
     });
 });
-
-function trans(message) {
-    var translat;
-    return message;
-}
 
 function addMessage(key, message) {
     if (message == undefined) {
@@ -137,9 +126,9 @@ function playNotify(notifySound) {
         var notifySound = 'notify';
     }
 
-    var audioNotifyElement = $('#audio-notification');
+    audioNotifyElement = $('#audio-notification');
     if (audioNotifyElement.length == 0) {
-        var audioNotifyElement = $('<audio />', {
+        audioNotifyElement = $('<audio />', {
             'id': 'audio-notification'
         });
     }
@@ -154,5 +143,4 @@ function playNotify(notifySound) {
 
     audioNotifyElement.appendTo('body');
     $(audioNotifyElement)[0].play();
-    console.log('must be played');
 }

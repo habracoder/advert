@@ -19,10 +19,15 @@ class ComponentController extends Controller
      */
     public function recentAdvertsAction(Request $request)
     {
+        $em         = $this->getDoctrine()->getManager();
+        $erUser     = $em->getRepository('UserBundle:User');
+        $erAdvert   = $em->getRepository('AdvertBundle:Advert');
+        $userId     = $request->get('user_id');
+        $user       = $erUser->findOneBy(['id'=>$userId]);
         $data = [];
         $data['heading_title'] = 'Последние добавленные';
         $data['heading_descr'] = 'Некоторые из последних обявлений автора';
-        $data['entities'] = $this->getDoctrine()->getRepository('AdvertBundle:Advert')->findBy([], [], 0);
+        $data['entities'] = $erAdvert->findBy(['user' => $user]);
 
         return $this->render('@User/Component/shortAdvertsList.html.twig', $data);
     }

@@ -60,7 +60,7 @@ class AdvertController extends BaseController
      *
      * @Route("/", name="advert_create")
      * @Method({"GET", "POST"})
-     * @Template("AdvertBundle:Advert:new.html.twig")
+     * @Template("AdvertBundle:Advert:create.html.twig")
      */
     public function createAction(Request $request)
     {

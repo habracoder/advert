@@ -10,3 +10,5 @@ property:
     firstName:      Имя
     lastName:       Фамилия
     email:          Электронная почта
+
+'you are not logged in' : 'Вы не вошли в систему'

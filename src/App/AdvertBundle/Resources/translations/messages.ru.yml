@@ -10,3 +10,9 @@ advert:
 category:
     one:            Категория
     many:           Категории
+
+
+
+
+'Ad has been added to the bookmark list'        : 'Обявление добавленно в закладки'
+'Ad has been deleted from the bookmark list'    : 'Обявление удаленно из закладок'

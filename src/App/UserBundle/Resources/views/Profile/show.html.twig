@@ -22,7 +22,7 @@
             <div class="profile-content">
                 <div class="tab-content no-bg no-border">
                     {{ render(controller('UserBundle:Component:bookmarksAdverts')) }}
-                    {{ render(controller('UserBundle:Component:recentAdverts')) }}
+                    {{ render(controller('UserBundle:Component:recentAdverts', {'user_id': user.id})) }}
                     {{ render(controller('UserBundle:Component:viewedAdverts')) }}
                 </div>
             </div>

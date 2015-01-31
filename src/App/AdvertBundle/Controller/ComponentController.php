@@ -41,31 +41,44 @@ class ComponentController extends Controller
     /**
      *
      * @var Request $request
-     * @Route("/advert/add_to_bookmark", name="add_advert_to_bookmark", options={"expose"=true})
+     * @Route("/advert/toggle_bookmark", name="toggle_bookmark", options={"expose"=true})
      * @return Response
      */
-    public function addAdvertToBookmarkAction(Request $request)
+    public function toggleBookmarkAction(Request $request)
     {
-        $json = [];
-        $id = $request->query->get('id');
-        $em = $this->getDoctrine()->getManager();
-        $er = $em->getRepository('AdvertBundle:Advert');
-        $user = $this->getUser();
+        $json['status'] = 'success';
 
-        if (null === $advert = $er->findOneBy(['id' => $id])) {
-            throw new Exception('Advert not found!', 404);
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $er = $em->getRepository('AdvertBundle:Advert');
+
+            // Checking authorization
+            if (false == $this->get('security.context')->isGranted('ROLE_USER')) {
+                throw new Exception('you are not logged in', 401);
+            }
+
+            // Checking existing ad
+            if (null === $advert = $er->findOneBy(['id' => $request->query->get('advert_id')])) {
+                throw new Exception('Advert not found!', 404);
+            }
+
+            if (true == $this->getUser()->getAdvertBookmarks()->contains($advert)) {
+                $this->getUser()->removeAdvertBookmark($advert);
+                $json['bookmark']   = 'removed';
+                $json['message']    = 'Ad has been deleted from the bookmark list';
+            } else {
+                $this->getUser()->addAdvertBookmark($advert);
+                $json['bookmark']   = 'added';
+                $json['message']    = 'Ad has been added to the bookmark list';
+            }
+
+            $em->persist($this->getUser());
+            $em->flush();
+        } catch (Exception $e) {
+            $json['status']     = 'fail';
+            $json['message']    = $e->getMessage();
+            return new JsonResponse($json, $e->getCode());
         }
-
-        if (true == $user->getAdvertBookmarks()->contains($advert)) {
-            $user->removeAdvertBookmark($advert);
-            $json['status'] = 'remove';
-        } else {
-            $user->addAdvertBookmark($advert);
-            $json['status'] = 'add';
-        }
-
-        $em->persist($user);
-        $em->flush();
 
         return new JsonResponse($json);
     }

@@ -29,7 +29,7 @@
 
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#{{ path('advert_create') }}">{{ 'advert.create_new'|trans }}</a></li>
+                            <li><a href="{{ path('advert_create') }}">{{ 'advert.create_new'|trans }}</a></li>
 
                             {% if is_granted("ROLE_USER") %}
                                 <li class="dropdown">
