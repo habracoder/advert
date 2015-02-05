@@ -20,5 +20,114 @@
 {% endblock %}
 
 {% block body -%}
-    {{ form(edit_form) }}
+    <style type="text/css">
+        .bar {
+            height: 18px;
+            background: green;
+        }
+    </style>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box">
+                {{ block('editingArea') }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="box">
+                {{ block('editingImagesArea') }}
+            </div>
+            {#{{ render(controller('UserBundle:Component:sidebarProfile')) }}#}
+        </div>
+    </div>
+{% endblock %}
+
+{% block editingArea %}
+    {{ form_start(form, {'attr':{'class':'form-horizontal'}}) }}
+    {{ bootstrap_set_style('horizontal') }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.price) }}
+    {{ form_row(form.content, {'attr':{'row':6}}) }}
+    {{ form_row(form.category) }}
+    {{ bootstrap_set_style('') }}
+
+    sdfsad
+
+
+    <div class="text-right">
+        {{ form_row(form.submit) }}
+    </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block editingImagesArea %}
+    <h5>Редактирование изображений</h5>
+    <div class="well">
+        {{ form(imageUploadForm) }}
+        {#<input id="fileupload" type="file" name="files[]" data-url="{{ path('advert_image_apload') }}" multiple>#}
+        {#<div id="progress">#}
+            {#<div class="bar" style="width: 0%;"></div>#}
+        {#</div>#}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(function () {
+                $('#form_file').fileupload({
+                    dataType: 'json',
+                    done: function (e, data) {
+                        $.each(data.result.files, function (index, file) {
+                            $('<p/>').text(file.name).appendTo(document.body);
+                        });
+                    }
+                });
+            });
+
+
+            var advertForm = $('form[name=advert_advert_edit]');
+
+            advertForm.find('input').on('change', function () {
+                $(this).parents('.form-group').filter('.has-error').find('.help-block').remove();
+                $(this).parents('.form-group').removeClass('has-error');
+            });
+
+            advertForm.on('submit', function () {
+                var Request = $.ajax({
+                    'url': advertForm.attr('action'),
+                    'dataType': 'json',
+                    'data': $(advertForm).serialize(),
+                    'type': 'post'
+                });
+
+                Request.always(function () {
+                    $('.has-error .help-block').remove();
+                    $('.form-group').removeClass('has-error');
+                });
+
+                Request.done(function (Response) {
+                    if (Response.errors) {
+                        addMessage('warning', 'Please check form');
+                        $.each(Response.errors, function (field, message) {
+                            var element = $('form [id$=_' + field + ']');
+                            element.after($('<div />', {
+                                'class': 'help-block'
+                            }).append(message));
+
+                            element.parents('.form-group').addClass('has-error');
+                        });
+                    } else {
+                        window.location.replace(Response.redirect_href);
+                    }
+                });
+
+                Request.fail(function (Response) {
+                    addMessage('error', Response.responseJSON.message);
+                });
+
+                return false;
+            });
+        });
+    </script>
 {% endblock %}

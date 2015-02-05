@@ -74,8 +74,12 @@ class ComponentController extends Controller
      */
     public function sidebarProfileAction(Request $request)
     {
+        if (null === $user = $request->get('user')) {
+            $user = $this->getUser();
+        }
+
         return [
-            'user' => $this->getUser()
+            'user' => $user
         ];
     }
 }

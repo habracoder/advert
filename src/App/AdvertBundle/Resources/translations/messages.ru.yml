@@ -14,5 +14,7 @@ category:
 
 
 
-'Ad has been added to the bookmark list'        : 'Обявление добавленно в закладки'
-'Ad has been deleted from the bookmark list'    : 'Обявление удаленно из закладок'
+'Ad has been added to the bookmark list'        : 'Обявление добавленно в закладки.'
+'Ad has been deleted from the bookmark list'    : 'Обявление удаленно из закладок.'
+'Continue prepare'                              : 'Продолжить заполнение.'
+'Price must be at least {{ limit }}'            : 'Цена должна бить болшье {{ limit }}.'

@@ -18,7 +18,7 @@ class ComponentController extends Controller
     public function searchPanelAction()
     {
         $translator = $this->get('translator');
-        $res = $translator->trans('advert.category');
+        $res = $translator->trans('Category of advert');
         $messages = $translator->getMessages('ru');
 
 

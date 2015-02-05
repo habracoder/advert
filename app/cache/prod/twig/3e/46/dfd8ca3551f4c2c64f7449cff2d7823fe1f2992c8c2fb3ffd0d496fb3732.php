@@ -27,8 +27,9 @@ class __TwigTemplate_3e46dfd8ca3551f4c2c64f7449cff2d7823fe1f2992c8c2fb3ffd0d496f
         echo "\" class=\"img-circle\" />
                     ";
         // line 8
-        echo "                    <span class=\"label label-info label-speech\">Looking to buy!</span>
-                </div>
+        echo "                    ";
+        // line 9
+        echo "                </div>
                 <div class=\"media-body\">
                     <h4 class=\"media-heading\">";
         // line 11
@@ -61,28 +62,49 @@ class __TwigTemplate_3e46dfd8ca3551f4c2c64f7449cff2d7823fe1f2992c8c2fb3ffd0d496f
                     </li>
                 </ul>
 
-                <ul class=\"list-group\">
-                    <li class=\"list-group-item\">
-                        <h5 class=\"list-title uppercase\">About</h5>
-                        <p>
-                            Pudding bear claw soufflé chocolate cake carrot cake. Pie marzipan pudding cupcake.
-                        </p>
-                    </li>
-                    <li class=\"list-group-item\">
-                        <h5 class=\"list-title uppercase\">Interested in <span>buying</span></h5>
-                        <div class=\"product-tags clean clearfix\">
-                            <a href=\"#\">Bukit Jalil</a>
-                            <a href=\"#\">Subang Jaya</a>
-                            <a href=\"#\">Kuala Lumpur</a>
-                            <a href=\"#\">Apartment</a>
-                            <a href=\"#\">Townhouse</a>
-                            <a href=\"#\">Link House</a>
-                            <a href=\"#\">Putrajaya</a>
-                            <a href=\"#\">Ammenities</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+                ";
+        // line 28
+        echo "                    ";
+        // line 29
+        echo "                        ";
+        // line 30
+        echo "                        ";
+        // line 31
+        echo "                            ";
+        // line 32
+        echo "                        ";
+        // line 33
+        echo "                    ";
+        // line 34
+        echo "                    ";
+        // line 35
+        echo "                        ";
+        // line 36
+        echo "                        ";
+        // line 37
+        echo "                            ";
+        // line 38
+        echo "                            ";
+        // line 39
+        echo "                            ";
+        // line 40
+        echo "                            ";
+        // line 41
+        echo "                            ";
+        // line 42
+        echo "                            ";
+        // line 43
+        echo "                            ";
+        // line 44
+        echo "                            ";
+        // line 45
+        echo "                        ";
+        // line 46
+        echo "                    ";
+        // line 47
+        echo "                ";
+        // line 48
+        echo "            </div>
         </div>
     </div>
 
@@ -101,6 +123,6 @@ class __TwigTemplate_3e46dfd8ca3551f4c2c64f7449cff2d7823fe1f2992c8c2fb3ffd0d496f
 
     public function getDebugInfo()
     {
-        return array (  59 => 23,  55 => 22,  49 => 19,  45 => 18,  35 => 11,  30 => 8,  26 => 6,  19 => 1,);
+        return array (  107 => 48,  105 => 47,  103 => 46,  101 => 45,  99 => 44,  97 => 43,  95 => 42,  93 => 41,  91 => 40,  89 => 39,  87 => 38,  85 => 37,  83 => 36,  81 => 35,  79 => 34,  77 => 33,  75 => 32,  73 => 31,  71 => 30,  69 => 29,  67 => 28,  60 => 23,  56 => 22,  50 => 19,  46 => 18,  36 => 11,  32 => 9,  30 => 8,  26 => 6,  19 => 1,);
     }
 }

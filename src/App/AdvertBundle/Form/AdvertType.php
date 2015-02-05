@@ -16,17 +16,25 @@ class AdvertType extends AbstractType
     {
         $builder
             ->add('title', 'text', [
-                'label' => 'advert.title'
+                'label' => 'advert.title',
+                'error_bubbling' => true
             ])
             ->add('content', 'textarea', [
-                'label' => 'advert.content'
+                'label' => 'advert.content',
+                'error_bubbling' => true
             ])
             ->add('price', 'number', [
-                'label' => 'advert.price'
+                'label' => 'advert.price',
+                'error_bubbling' => true
             ])
             ->add('category', null, [
-                'label' => 'advert.category'
+                'label' => 'Category of advert',
+                'error_bubbling' => true
             ])
+            ->add('submit', 'submit', [
+                'label' => 'Save'
+            ])
+            ->setMethod('POST')
         ;
     }
     
@@ -45,6 +53,6 @@ class AdvertType extends AbstractType
      */
     public function getName()
     {
-        return 'advert_advert_create';
+        return 'advert_advert_edit';
     }
 }

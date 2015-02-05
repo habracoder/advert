@@ -28,6 +28,12 @@ class Advert
      *
      * @ORM\Column(name="title", type="string", length=500, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 255,
+     *      minMessage = "Title of advert must be at least {{ limit }} characters long",
+     *      maxMessage = "Title of advert must be longer then {{ limit }} characters long"
+     * )
      */
     private $title;
 
@@ -99,6 +105,7 @@ class Advert
     {
         $this->userBookmarks = new ArrayCollection();
         $this->countOfViews = 0;
+        $this->price = 0;
         $this->isEnabled = false;
     }
 

@@ -12,8 +12,10 @@
     Translator.add("property.firstName", "\u0418\u043c\u044f", "messages", "ru");
     Translator.add("property.lastName", "\u0424\u0430\u043c\u0438\u043b\u0438\u044f", "messages", "ru");
     Translator.add("property.email", "\u042d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u0430\u044f \u043f\u043e\u0447\u0442\u0430", "messages", "ru");
-    Translator.add("Ad has been added to the bookmark list", "\u041e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u0435 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043d\u043e \u0432 \u0437\u0430\u043a\u043b\u0430\u0434\u043a\u0438", "messages", "ru");
-    Translator.add("Ad has been deleted from the bookmark list", "\u041e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u0435 \u0443\u0434\u0430\u043b\u0435\u043d\u043d\u043e \u0438\u0437 \u0437\u0430\u043a\u043b\u0430\u0434\u043e\u043a", "messages", "ru");
+    Translator.add("Ad has been added to the bookmark list", "\u041e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u0435 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043d\u043e \u0432 \u0437\u0430\u043a\u043b\u0430\u0434\u043a\u0438.", "messages", "ru");
+    Translator.add("Ad has been deleted from the bookmark list", "\u041e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u0435 \u0443\u0434\u0430\u043b\u0435\u043d\u043d\u043e \u0438\u0437 \u0437\u0430\u043a\u043b\u0430\u0434\u043e\u043a.", "messages", "ru");
+    Translator.add("Continue prepare", "\u041f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c \u0437\u0430\u043f\u043e\u043b\u043d\u0435\u043d\u0438\u0435.", "messages", "ru");
+    Translator.add("Price must be at least {{ limit }}", "\u0426\u0435\u043d\u0430 \u0434\u043e\u043b\u0436\u043d\u0430 \u0431\u0438\u0442\u044c \u0431\u043e\u043b\u0448\u044c\u0435 {{ limit }}.", "messages", "ru");
     Translator.add("advert.one", "\u041e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u0435", "messages", "ru");
     Translator.add("advert.many", "\u041e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u044f", "messages", "ru");
     Translator.add("advert.create_new", "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043e\u0431\u044f\u0432\u043b\u0435\u043d\u0438\u0435", "messages", "ru");
@@ -28,12 +30,15 @@
     Translator.add("General Terms and Conditions", "\u0434\u043e\u0433\u043e\u0432\u043e\u0440\u043e\u043c \u043e\u0444\u0435\u0440\u0442\u044b", "messages", "ru");
     Translator.add("Read the General Terms and Conditions", "\u041f\u0440\u043e\u0447\u0438\u0442\u0430\u0442\u044c \u0434\u043e\u0433\u043e\u0432\u043e\u0440 \u043e\u0444\u0435\u0440\u0442\u044b", "messages", "ru");
     Translator.add("Calculating the cost of the agreement", "\u0420\u0430\u0441\u0441\u0447\u0435\u0442 \u0441\u0442\u043e\u0438\u043c\u043e\u0441\u0442\u0438 \u043f\u0440\u043e\u0434\u0443\u043a\u0442\u0430", "messages", "ru");
+    Translator.add("Save", "\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c", "messages", "ru");
     Translator.add("status", "\u0421\u0442\u0430\u0442\u0443\u0441", "messages", "ru");
     Translator.add("signed", "\u041f\u043e\u0434\u043f\u0438\u0441\u0430\u043d", "messages", "ru");
     Translator.add("paid", "\u041e\u043f\u043b\u0430\u0447\u0435\u043d", "messages", "ru");
     Translator.add("draft", "\u041e\u0436\u0438\u0434\u0430\u0435\u0442 \u043f\u043e\u0434\u043f\u0438\u0441\u0430\u043d\u0438\u044f", "messages", "ru");
     Translator.add("canceled", "\u041e\u0442\u043c\u0435\u043d\u0435\u043d", "messages", "ru");
     Translator.add("Something went wrong ;(", "\u0427\u0442\u043e-\u0442\u043e \u043f\u043e\u0448\u043b\u043e \u043d\u0435 \u0442\u0430\u043a ;(", "messages", "ru");
+    Translator.add("Category of advert", "\u041a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u044f \u043e\u0431\u044a\u044f\u0432\u043b\u0435\u043d\u0438\u044f", "messages", "ru");
+    Translator.add("Please check form", "\u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043f\u0440\u043e\u0432\u0435\u0440\u044c\u0442\u0435 \u0444\u043e\u0440\u043c\u0443", "messages", "ru");
     Translator.add("project.name", "Advert", "messages", "ru");
     Translator.add("project.homepage", "\u0413\u043b\u0430\u0432\u043d\u0430\u044f", "messages", "ru");
     Translator.add("property.name", "\u041d\u0430\u0437\u0432\u0430\u043d\u0438\u0435", "messages", "ru");

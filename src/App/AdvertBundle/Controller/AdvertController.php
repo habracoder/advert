@@ -3,6 +3,7 @@
 namespace App\AdvertBundle\Controller;
 
 use App\CoreBundle\Controller\BaseController;
+use App\StorageBundle\Entity\Image;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use App\AdvertBundle\Entity\Advert;
 use App\AdvertBundle\Form\AdvertType;
+use App\AdvertBundle\Form\NewAdvertType;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Advert controller.
@@ -19,6 +22,31 @@ use App\AdvertBundle\Form\AdvertType;
  */
 class AdvertController extends BaseController
 {
+    /**
+     * Finds and displays a Advert entity.
+     *
+     * @Route("/{id}/show", name="advert_show")
+     * @Method("GET")
+     * @Template()
+     */
+    public function showAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $er = $em->getRepository('AdvertBundle:Advert');
+        $ad = $er->find($id);
+
+        if (!$ad) {
+            throw $this->createNotFoundException('Unable to find Advert entity.');
+        }
+
+        $ad->countOfViewsAddOne();
+        $em->persist($ad);
+        $em->flush();
+
+        return [
+            'entity' => $ad,
+        ];
+    }
 
     /**
      * Lists all Advert entities.
@@ -27,7 +55,7 @@ class AdvertController extends BaseController
      * @Method("GET")
      * @Template()
      */
-    public function indexAction(Request $request, $alias)
+    public function listAction(Request $request, $alias)
     {
         $category = $this->getDoctrine()->getRepository('AdvertBundle:Category')->findOneBy(['alias'=>$alias]);
         if (null != $category){
@@ -50,50 +78,57 @@ class AdvertController extends BaseController
             $entities = $er->findBy($criteria);
         }
 
-        return array(
+        return [
             'entities' => $entities,
-        );
+        ];
     }
 
     /**
      * Creates a new Advert entity.
      *
-     * @Route("/", name="advert_create")
+     * @Route("/create", name="advert_create")
      * @Method({"GET", "POST"})
-     * @Template("AdvertBundle:Advert:create.html.twig")
      */
     public function createAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $er = $em->getRepository('AdvertBundle:Advert');
+        $ad = new Advert();
 
-        if (true === $request->request->has('entity_id')) {
-            $entity = $er->findOneBy(['id'=>$request->request->get('entity_id')]);
-        } else {
-            $entity = new Advert();
-        }
+        $form = $this->createCreateForm($ad);
 
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        if (true === $request->isXmlHttpRequest()) {
+            $json = [];
 
-        if (true === $request->isXmlHttpRequest() && true === $form->isValid()) {
-            $entity->setUser($this->getUser());
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+            try {
+                $form->handleRequest($request);
 
-            $json = [
-                'status' => 'success',
-                'entity_id' => $entity->getId()
-            ];
+                if (true === $form->isValid()) {
+                    $ad->setUser($this->getUser());
+                    $em->persist($ad);
+                    $em->flush();
+                    $json = [
+                        'status' => 'success',
+                        'redirect_href' => $this->generateUrl('advert_edit', ['id' => $ad->getId()])
+                    ];
+                } else {
+                    $json['errors'] = [];
+                    foreach ($form->getErrors() as $error) {
+                        $json['errors'][$error->getOrigin()->getConfig()->getName()] = $error->getMessage();
+                    }
+                }
+            } catch (\Exception $e) {
+                $json['message'] = $e->getMessage();
+                return new JsonResponse($json, 500);
+            }
 
             return new JsonResponse($json);
         }
 
-        return array(
-            'entity' => $entity,
-            'form' => $form->createView(),
-        );
+        return new Response(
+            $this->get('templating')->render('AdvertBundle:Advert:create.html.twig', [
+                'entity' => $ad,
+                'form' => $form->createView(),
+        ]));
     }
 
     /**
@@ -106,70 +141,128 @@ class AdvertController extends BaseController
     private function createCreateForm(Advert $entity)
     {
         $form = $this->createForm(
-            new AdvertType(),
+            new NewAdvertType(),
             $entity,
-            array(
+            [
                 'action' => $this->generateUrl('advert_create'),
                 'method' => 'POST',
-            )
+            ]
         );
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
-    }
-
-    /**
-     * Finds and displays a Advert entity.
-     *
-     * @Route("/show/{id}", name="advert_show")
-     * @Method("GET")
-     * @Template()
-     */
-    public function showAction($id)
-    {
-        $em = $this->getDoctrine()->getManager();
-
-        $entity = $em->getRepository('AdvertBundle:Advert')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Advert entity.');
-        }
-
-        $entity->countOfViewsAddOne();
-        $em->persist($entity);
-        $em->flush();
-
-        return array(
-            'entity' => $entity,
-        );
     }
 
     /**
      * Displays a form to edit an existing Advert entity.
      *
      * @Route("/{id}/edit", name="advert_edit")
-     * @Method("GET")
+     * @Method({"GET", "POST"})
      * @Template()
      */
-    public function editAction($id)
+    public function editAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
+        $er = $em->getRepository('AdvertBundle:Advert');
+        $ad = $er->find($id);
 
-        $entity = $em->getRepository('AdvertBundle:Advert')->find($id);
-
-        if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Advert entity.');
+        if (null === $ad) {
+            throw $this->createNotFoundException('Unable to find Advert');
         }
 
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createEditForm($ad);
         $deleteForm = $this->createDeleteForm($id);
 
-        return array(
-            'entity' => $entity,
-            'edit_form' => $editForm->createView(),
+        if (true === $request->isXmlHttpRequest()) {
+            try {
+                $json = [];
+                $editForm->handleRequest($request);
+                if (true === $editForm->isValid()) {
+                    $em->persist($ad);
+                    $em->flush();
+                    $json = [
+                        'status' => 'success',
+                        'redirect_href' => $this->generateUrl('advert_show', ['id' => $ad->getId()])
+                    ];
+                } else {
+                    $json['errors'] = [];
+                    foreach ($editForm->getErrors() as $error) {
+                        $json['errors'][$error->getOrigin()->getConfig()->getName()] = $error->getMessage();
+                    }
+                }
+            } catch (\Exception $e) {
+                return new JsonResponse(['message' => $e->getMessage()], 500);
+            }
+
+            return new JsonResponse($json);
+        }
+
+        $uploadImageForm = $this->createUploadForm($ad);
+
+        return [
+            'entity' => $ad,
+            'form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+            'imageUploadForm' => $uploadImageForm->createView()
+        ];
+    }
+
+    /**
+     * Displays a form to edit an existing Advert entity.
+     *
+     * @Route("advert{id}/upload/image", name="advert_image_apload")
+     * @Method({"GET", "POST"})
+     */
+    public function uploadImageAction(Request $request, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $er = $em->getRepository('AdvertBundle:Advert');
+
+        if (null === $ad = $er->findOneBy(['id'=>$id])) {
+            throw $this->createNotFoundException('Advert is not found!');
+        }
+
+        $json = [];
+        $form = $this->createUploadForm($ad);
+        $form->handleRequest($request);
+        if ($form->isValid()) {
+            $data = $form->getData();
+            $files = $data['file'];
+
+            foreach($files as $file) {
+                $image = new Image();
+                $image->setFile($file);
+                $em->persist($image);
+                $em->flush();
+            }
+
+        } else {
+            $errors = $form->getErrors();
+        }
+
+        return new JsonResponse($json);
+    }
+
+
+
+    /**
+     * Creates a form to edit a Advert entity.
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
+    private function createUploadForm(Advert $ad)
+    {
+        $form = $this->createFormBuilder();
+        $form->add('file', 'file', [
+            'multiple' => true,
+            'label' => 'Изображения',
+            'attr' => [
+                'id' => 'fileupload',
+                'data-url' => $this->generateUrl('advert_image_apload', ['id' => $ad->getId()])
+            ]
+        ]);
+        $form = $form->getForm();
+
+        return $form;
     }
 
     /**
@@ -184,10 +277,9 @@ class AdvertController extends BaseController
         $form = $this->createForm(
             new AdvertType(),
             $entity,
-            array(
-                'action' => $this->generateUrl('advert_update', array('id' => $entity->getId())),
-                'method' => 'PUT',
-            )
+            [
+                'action' => $this->generateUrl('advert_edit', ['id' => $entity->getId()]),
+            ]
         );
 
         return $form;
@@ -221,11 +313,11 @@ class AdvertController extends BaseController
             return $this->redirect($this->generateUrl('advert_show', ['id'=>$id]));
         }
 
-        return array(
+        return [
             'entity' => $entity,
             'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
-        );
+        ];
     }
 
     /**
@@ -264,9 +356,9 @@ class AdvertController extends BaseController
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('advert_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('advert_delete', ['id' => $id]))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', ['label' => 'Delete'])
             ->getForm();
     }
 }

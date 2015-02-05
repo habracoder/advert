@@ -28,34 +28,8 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
         $request = $this->request;
 
         if (0 === strpos($pathinfo, '/advert')) {
-            // advert
-            if (0 === strpos($pathinfo, '/advert/list') && preg_match('#^/advert/list(?:/(?P<alias>[^/]++))?$#s', $pathinfo, $matches)) {
-                if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'HEAD'));
-                    goto not_advert;
-                }
-
-                return $this->mergeDefaults(array_replace($matches, array('_route' => 'advert')), array (  'alias' => NULL,  '_controller' => 'App\\AdvertBundle\\Controller\\AdvertController::indexAction',));
-            }
-            not_advert:
-
-            // advert_create
-            if (rtrim($pathinfo, '/') === '/advert') {
-                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
-                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
-                    goto not_advert_create;
-                }
-
-                if (substr($pathinfo, -1) !== '/') {
-                    return $this->redirect($pathinfo.'/', 'advert_create');
-                }
-
-                return array (  '_controller' => 'App\\AdvertBundle\\Controller\\AdvertController::createAction',  '_route' => 'advert_create',);
-            }
-            not_advert_create:
-
             // advert_show
-            if (0 === strpos($pathinfo, '/advert/show') && preg_match('#^/advert/show/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {
+            if (preg_match('#^/advert/(?P<id>[^/]++)/show$#s', $pathinfo, $matches)) {
                 if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
                     $allow = array_merge($allow, array('GET', 'HEAD'));
                     goto not_advert_show;
@@ -65,16 +39,49 @@ class appProdUrlMatcher extends Symfony\Bundle\FrameworkBundle\Routing\Redirecta
             }
             not_advert_show:
 
-            // advert_edit
-            if (preg_match('#^/advert/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+            // advert
+            if (0 === strpos($pathinfo, '/advert/list') && preg_match('#^/advert/list(?:/(?P<alias>[^/]++))?$#s', $pathinfo, $matches)) {
                 if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
                     $allow = array_merge($allow, array('GET', 'HEAD'));
+                    goto not_advert;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'advert')), array (  'alias' => NULL,  '_controller' => 'App\\AdvertBundle\\Controller\\AdvertController::listAction',));
+            }
+            not_advert:
+
+            // advert_create
+            if ($pathinfo === '/advert/create') {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_advert_create;
+                }
+
+                return array (  '_controller' => 'App\\AdvertBundle\\Controller\\AdvertController::createAction',  '_route' => 'advert_create',);
+            }
+            not_advert_create:
+
+            // advert_edit
+            if (preg_match('#^/advert/(?P<id>[^/]++)/edit$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
                     goto not_advert_edit;
                 }
 
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'advert_edit')), array (  '_controller' => 'App\\AdvertBundle\\Controller\\AdvertController::editAction',));
             }
             not_advert_edit:
+
+            // advert_image_apload
+            if (0 === strpos($pathinfo, '/advertadvert') && preg_match('#^/advertadvert(?P<id>[^/]++)/upload/image$#s', $pathinfo, $matches)) {
+                if (!in_array($this->context->getMethod(), array('GET', 'POST', 'HEAD'))) {
+                    $allow = array_merge($allow, array('GET', 'POST', 'HEAD'));
+                    goto not_advert_image_apload;
+                }
+
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'advert_image_apload')), array (  '_controller' => 'App\\AdvertBundle\\Controller\\AdvertController::uploadImageAction',));
+            }
+            not_advert_image_apload:
 
             // advert_update
             if (preg_match('#^/advert/(?P<id>[^/]++)$#s', $pathinfo, $matches)) {

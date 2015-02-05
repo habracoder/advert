@@ -19,12 +19,27 @@
 {#{% endblock %}#}
 
 {% block body -%}
+    <div class="row">
+        <div class="col-md-3">
+            {{ render(controller('UserBundle:Component:sidebarProfile', {'user': entity.user})) }}
+        </div>
+        <div class="col-md-9">
+            <div class="box">
+                {{ block('overview') }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
+{% block overview %}
     <div class="row">
         <div class="col-lg-4">
             <img class="img img-thumbnail" src="{{ asset('assets/img/no_photo.png') }}">
         </div>
         <div class="col-lg-8">
+            {% if app.user == entity.user %}
+                <a href="{{ path('advert_edit', { 'id': entity.id }) }}" class="btn btn-default pull-right">{{ 'action.edit'|trans }}</a>
+            {% endif %}
             <div class="price">
                 <h2>Цена: {{ entity.price|localizedcurrency('UAH') }}</h2>
             </div>

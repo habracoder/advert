@@ -98,10 +98,13 @@ label:
 'Calculating the cost of the agreement': 'Рассчет стоимости продукта'
 
 # Statuses.
-status: Статус
-signed: Подписан
-paid: Оплачен
-draft: Ожидает подписания
-canceled: Отменен
+'Save'                      : 'Сохранить'
+status                      : Статус
+signed                      : Подписан
+paid                        : Оплачен
+draft                       : Ожидает подписания
+canceled                    : Отменен
 
-'Something went wrong ;(' : 'Что-то пошло не так ;('
+'Something went wrong ;('   : 'Что-то пошло не так ;('
+'Category of advert'        : 'Категория объявления'
+'Please check form'         : 'Пожалуйста, проверьте форму'

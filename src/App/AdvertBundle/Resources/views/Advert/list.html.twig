@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Обявления{% endblock %}
+
+{% block breadcrumbs %}
+    {% set breadcrumbs = [
+    { 'path': path('homepage'), 'title': 'project.homepage'|trans },
+    { 'title': 'Обявления'|trans }
+    ] %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body -%}
+    <div class="col-md-3 sidebar-offcanvas sidebar-offcanvas-sm">
+        {{ render(controller('AdvertBundle:Component:filters')) }}
+    </div>
+    <div class="col-md-9">
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="product-list" class="product-list full-listing clearfix grid-layout">
+                    {{ block('list') }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block list %}
+    {% include '@Advert/Advert/Section/filter.html.twig' ignore missing %}
+    {% if entities|length > 0 %}
+        {% for advert in entities %}
+            {% include '@Advert/Advert/Section/advert.html.twig' ignore missing %}
+        {% endfor %}
+    {% else %}
+        {{ include('@Core/Section/noResult.html.twig') }}
+    {% endif %}
+{% endblock %}

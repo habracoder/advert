@@ -76,25 +76,18 @@ class __TwigTemplate_f46cc9665ae1e762e412a01a903524ae36a20a6d4aa7d42b68d458fe24b
         echo "
                 ";
         // line 20
-        $context["fields"] = array(0 => "title", 1 => "category", 2 => "price", 3 => "content");
-        // line 21
-        echo "                ";
-        $context['_parent'] = (array) $context;
-        $context['_seq'] = twig_ensure_traversable((isset($context["fields"]) ? $context["fields"] : $this->getContext($context, "fields")));
-        foreach ($context['_seq'] as $context["_key"] => $context["field"]) {
-            // line 22
-            echo "                    ";
-            echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), $context["field"], array(), "array"), 'row');
-            echo "
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "title", array()), 'row');
+        echo "
                 ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['field'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 24
-        echo "                ";
+        // line 21
         echo twig_escape_filter($this->env, $this->env->getExtension('braincrafted_bootstrap_form')->setStyle(""), "html", null, true);
         echo "
+                <div class=\"text-right\">
+                    ";
+        // line 23
+        echo $this->env->getExtension('form')->renderer->searchAndRenderBlock($this->getAttribute((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), "submit", array()), 'row');
+        echo "
+                </div>
                 ";
         // line 25
         echo         $this->env->getExtension('form')->renderer->renderBlock((isset($context["form"]) ? $context["form"] : $this->getContext($context, "form")), 'form_end');
@@ -115,29 +108,46 @@ class __TwigTemplate_f46cc9665ae1e762e412a01a903524ae36a20a6d4aa7d42b68d458fe24b
     <script type=\"text/javascript\">
         \$(document).ready(function () {
             var advertForm = \$('form[name=advert_advert_create]');
-            \$(advertForm).children().on('change', function (obj) {
-                \$.ajax({
+
+            advertForm.find('input').on('change', function() {
+                \$(this).parents('.form-group').filter('.has-error').find('.help-block').remove();
+                \$(this).parents('.form-group').removeClass('has-error');
+            });
+
+            advertForm.on('submit', function() {
+                var Request = \$.ajax({
                     'url': advertForm.attr('action'),
                     'dataType': 'json',
                     'data': \$(advertForm).serialize(),
-                    'type': 'post',
-                    'success': function (response) {
-                        if ('success' === response.status) {
-                            var entityHidden = \$(advertForm).find('[name=entity_id]');
-                            console.log(entityHidden);
-                            if (\$(entityHidden).size() == 0) {
-                                \$(advertForm).append(\$(\"<input/>\",
-                                        {
-                                            'type': 'hidden',
-                                            'id': 'entity_id',
-                                            'name': 'entity_id',
-                                            'value': response.entity_id
-                                        }));
-                            }
-                        }
+                    'type': 'post'
+                });
+
+                Request.always(function(){
+                    \$('.has-error .help-block').remove();
+                    \$('.form-group').removeClass('has-error');
+                });
+
+                Request.done(function(Response) {
+                    if (Response.errors) {
+                        addMessage('warning', 'Please check form');
+                        \$.each(Response.errors, function(field, message) {
+                            var element = \$('form [id\$=_'+ field + ']');
+                            element.after(\$('<div />', {
+                                'class' : 'help-block'
+                            }).append(message));
+
+                            element.parents('.form-group').addClass('has-error');
+                        });
+                    } else {
+                        window.location.replace(Response.redirect_href);
                     }
                 });
-                console.log()
+
+                Request.fail(function(Response) {
+                    addMessage('error', Response.responseJSON.message);
+                });
+
+                return false;
             });
         });
     </script>
@@ -156,6 +166,6 @@ class __TwigTemplate_f46cc9665ae1e762e412a01a903524ae36a20a6d4aa7d42b68d458fe24b
 
     public function getDebugInfo()
     {
-        return array (  112 => 32,  109 => 31,  100 => 25,  95 => 24,  86 => 22,  81 => 21,  79 => 20,  75 => 19,  71 => 18,  64 => 14,  60 => 12,  57 => 11,  50 => 8,  47 => 7,  42 => 4,  39 => 3,  11 => 1,);
+        return array (  105 => 32,  102 => 31,  93 => 25,  88 => 23,  83 => 21,  79 => 20,  75 => 19,  71 => 18,  64 => 14,  60 => 12,  57 => 11,  50 => 8,  47 => 7,  42 => 4,  39 => 3,  11 => 1,);
     }
 }
