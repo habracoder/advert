@@ -62,11 +62,9 @@
 {% block editingImagesArea %}
     <h5>Редактирование изображений</h5>
     <div class="well">
-        {{ form(imageUploadForm) }}
-        {#<input id="fileupload" type="file" name="files[]" data-url="{{ path('advert_image_apload') }}" multiple>#}
-        {#<div id="progress">#}
-            {#<div class="bar" style="width: 0%;"></div>#}
-        {#</div>#}
+        {{ form_start(imageUploadForm) }}
+            {{ form_row(imageUploadForm.file) }}
+        {{ form_end(imageUploadForm) }}
     </div>
 {% endblock %}
 
@@ -84,7 +82,6 @@
                     }
                 });
             });
-
 
             var advertForm = $('form[name=advert_advert_edit]');
 
